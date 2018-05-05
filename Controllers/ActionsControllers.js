@@ -18,7 +18,7 @@ const ActionControllers = {
         })
         .catch(err => res.status(500).json({ error: "create action failed" }));
     } else {
-      res.status(500).json({ error: "create project failed" }));
+      res.status(500).json({ error: "create project failed" });
     }
   },
   updateAction: (req, res) => {
@@ -32,9 +32,7 @@ const ActionControllers = {
         .then(action => {
           res.status(200).json(action);
         })
-        .catch(err =>
-          res.status(500).json({ error: "error action project" })
-        );
+        .catch(err => res.status(500).json({ error: "error action project" }));
     } else {
       res.status(500).json({ error: "update action failed" });
     }
@@ -44,9 +42,7 @@ const ActionControllers = {
     if (typeof parseInt(id) === "number") {
       ActionHelpers.delete(id)
         .then(() => res.status(200).json({ success: `deleted id ${id}` }))
-        .catch(err =>
-          res.status(400).json({ error: "error deleting action" })
-        );
+        .catch(err => res.status(400).json({ error: "error deleting action" }));
     } else {
       res.status(500).json({ error: "an id must be provided" });
     }

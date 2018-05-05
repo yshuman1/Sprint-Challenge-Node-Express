@@ -1,5 +1,5 @@
 import express from "express";
-import ActionControllers from "../Controllers/ActionControllers";
+import ActionControllers from "../Controllers/ActionsControllers";
 
 const ActionRouter = express.Router();
 const {
