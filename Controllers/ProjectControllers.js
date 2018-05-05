@@ -1,9 +1,5 @@
 import ProjectHelpers from "../data/helpers/projectModel";
 
-const handleError = (status, action, res) => {
-  res.status(status).json({ error: `Could not ${action} project` });
-};
-
 const ProjectControllers = {
   getProject: (req, res) => {
     const { id } = req.params;
@@ -13,10 +9,10 @@ const ProjectControllers = {
           if (res.length > 0) {
             res.status(200).json(res[0]);
           } else {
-            handleError(404, "get", res);
+            res.status(404).json({ error: "error fetching id" });
           }
         })
-        .catch(err => handleError(500, "get", res));
+        .catch(err => res.status(500).json({ error: "error fetching id" }));
     } else {
       res.status(500).json({ error: "An id must be provided" });
     }
@@ -28,9 +24,9 @@ const ProjectControllers = {
         .then(res => {
           res.status(201).json(res[0]);
         })
-        .catch(err => handleError(500, "post", res));
+        .catch(err => res.status(500).json({ error: "create project failed" }));
     } else {
-      handleError(500, "post", res);
+      res.status(500).json({ error: "create project failed" });
     }
   },
   updateProject: (req, res) => {
@@ -44,9 +40,11 @@ const ProjectControllers = {
         .then(res => {
           res.status(200).json(res[0]);
         })
-        .catch(err => handleError(500, "update", res));
+        .catch(err =>
+          res.status(500).json({ error: "error updating project" })
+        );
     } else {
-      handleError(500, "update", res);
+      res.status(500).json({ error: "update project failed" });
     }
   },
   deleteProject: (req, res) => {
@@ -56,7 +54,9 @@ const ProjectControllers = {
         .then(res => {
           res.status(200).json({ success: `deleted project ${id}` });
         })
-        .catch(err => handleError(400, "delete", res));
+        .catch(err =>
+          res.status(400).json({ error: "error deleting project" })
+        );
     } else {
       res.status(500).json({ error: "an id must be provided" });
     }

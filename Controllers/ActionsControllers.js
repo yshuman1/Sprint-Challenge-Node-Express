@@ -1,9 +1,5 @@
 import ActionHelpers from "../data/helpers/actionModel";
 
-const handleError = (status, action, res) => {
-  res.status(status).json({ error: `Could not ${action} action` });
-};
-
 const ActionControllers = {
   getAction: (req, res) => {
     const { id } = req.params;
@@ -11,7 +7,7 @@ const ActionControllers = {
       .then(action => {
         res.status(200).json(action);
       })
-      .catch(err => handleError(500, "get", res));
+      .catch(err => res.status(500).json({ error: "error fetching action" }));
   },
   createAction: (req, res) => {
     const newAction = req.body;
@@ -20,9 +16,9 @@ const ActionControllers = {
         .then(action => {
           res.status(200).json(action);
         })
-        .catch(err => handleError(500, "post", res));
+        .catch(err => res.status(500).json({ error: "create action failed" }));
     } else {
-      handleError(500, "post", res);
+      res.status(500).json({ error: "create project failed" }));
     }
   },
   updateAction: (req, res) => {
@@ -36,9 +32,11 @@ const ActionControllers = {
         .then(action => {
           res.status(200).json(action);
         })
-        .catch(err => handleError(500, "update", res));
+        .catch(err =>
+          res.status(500).json({ error: "error action project" })
+        );
     } else {
-      handleError(500, "upadate", res);
+      res.status(500).json({ error: "update action failed" });
     }
   },
   deleteAction: (req, res) => {
@@ -46,9 +44,11 @@ const ActionControllers = {
     if (typeof parseInt(id) === "number") {
       ActionHelpers.delete(id)
         .then(() => res.status(200).json({ success: `deleted id ${id}` }))
-        .catch(err => handleError(500, "delete", res));
+        .catch(err =>
+          res.status(400).json({ error: "error deleting action" })
+        );
     } else {
-      handleError(500, "delete", res);
+      res.status(500).json({ error: "an id must be provided" });
     }
   }
 };
